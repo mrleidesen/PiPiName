@@ -6,12 +6,19 @@
 
 # 使用方法
 
-## 1. 安装第三方库
-
-安装简繁体转换库 OpenCC：
-
+## 0. 虚拟环境
+在目录下创建虚拟环境
 ```
-pip install opencc
+python -m venv venv
+```
+进入环境(Windows下)
+```
+venv\Scripts\activate
+```
+
+## 1. 安装依赖
+```
+pip install -r requirements.txt
 ```
 
 ## 2. 配置参数
