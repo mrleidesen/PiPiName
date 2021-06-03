@@ -1,9 +1,30 @@
-from config import name_source, last_name, dislike_words, \
-    min_stroke_count, max_stroke_count, allow_general, name_validate, gender, \
-    check_name, check_name_resource
 from name_set import check_resource, get_source
 from wuge import check_wuge_config, get_stroke_list
 
+name_source = int(input("请选择词库，0: 默认, 1: 诗经, 2: 楚辞, 3: 论语, 4: 周易, 5: 唐诗, 6: 宋诗, 7: 宋词。请选择："))
+last_name = input("请输入姓氏，目前仅支持单姓：")
+# 不想要的字，结果中不会出现这些字
+dislike_words = list("")
+# 最小笔画数
+min_stroke_count = 3
+
+# 最大笔画数
+max_stroke_count = 30
+# 允许使用中吉，开启后将生成包含中吉配置的名字，生成的名字会更多
+allow_general = False
+
+# 是否筛选名字，仅输出名字库中存在的名字，可以过滤明显不合适的名字
+name_validate = True
+
+# 是否筛选性别，男/女，空则不筛选，仅当开启名字筛选时有效
+gender = ""
+
+# 填入姓名，查看三才五格配置，仅支持单姓复名
+# 如果要起名，请保持该值为空
+check_name = ""
+
+# 是否显示名字来源
+check_name_resource = False
 
 def contain_bad_word(first_name):
     for word in first_name:
@@ -11,31 +32,33 @@ def contain_bad_word(first_name):
             return True
     return False
 
+def run_app():
+    if len(check_name) >= 2:
+        # 查看姓名配置
+        check_wuge_config(check_name)
+        if check_name_resource:
+            check_resource(check_name)
+        print(">>输出完毕")
+    else:
+        # 起名
+        names = list()
+        with open("names.txt", "w+", encoding='utf-8') as f:
+            for i in get_source(name_source, name_validate, get_stroke_list(last_name, allow_general)):
+                if i.stroke_number1 < min_stroke_count or i.stroke_number1 > max_stroke_count or \
+                        i.stroke_number2 < min_stroke_count or i.stroke_number2 > max_stroke_count:
+                    # 笔画数过滤
+                    continue
+                if name_validate and gender != "" and i.gender != gender and i.gender != "双" and i.gender != "未知":
+                    # 性别过滤
+                    continue
+                if contain_bad_word(i.first_name):
+                    # 不喜欢字过滤
+                    continue
+                names.append(i)
+            print(">>输出结果...")
+            names.sort()
+            for i in names:
+                f.write(last_name + str(i) + "\n")
+            print(">>输出完毕，请查看「names.txt」文件")
 
-if len(check_name) == 3:
-    # 查看姓名配置
-    check_wuge_config(check_name)
-    if check_name_resource:
-        check_resource(check_name)
-    print(">>输出完毕")
-else:
-    # 起名
-    names = list()
-    with open("names.txt", "w+", encoding='utf-8') as f:
-        for i in get_source(name_source, name_validate, get_stroke_list(last_name, allow_general)):
-            if i.stroke_number1 < min_stroke_count or i.stroke_number1 > max_stroke_count or \
-                    i.stroke_number2 < min_stroke_count or i.stroke_number2 > max_stroke_count:
-                # 笔画数过滤
-                continue
-            if name_validate and gender != "" and i.gender != gender and i.gender != "双" and i.gender != "未知":
-                # 性别过滤
-                continue
-            if contain_bad_word(i.first_name):
-                # 不喜欢字过滤
-                continue
-            names.append(i)
-        print(">>输出结果...")
-        names.sort()
-        for i in names:
-            f.write(last_name + str(i) + "\n")
-        print(">>输出完毕，请查看「names.txt」文件")
+run_app()
