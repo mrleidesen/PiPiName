@@ -93,14 +93,17 @@ def get_wuxing(count):
 
 # 查看三才五格配置
 def check_wuge_config(name):
-    if len(name) != 3:
-        return
+    # if len(name) != 3:
+    #     return
     # 姓名转繁体
     converter = opencc.OpenCC('s2t.json')
     complex_name = converter.convert(name)
     xing = get_stroke_number(complex_name[0])
     ming1 = get_stroke_number(complex_name[1])
-    ming2 = get_stroke_number(complex_name[2])
+    ming2 = 0
+    if len(name) != 2:
+        ming2 = get_stroke_number(complex_name[2])
+        
     # 天格
     tian = xing + 1
     # 人格
