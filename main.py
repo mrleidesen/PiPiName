@@ -3,8 +3,14 @@ from wuge import check_wuge_config, get_stroke_list
 
 name_source = int(input("请选择词库，0: 默认, 1: 诗经, 2: 楚辞, 3: 论语, 4: 周易, 5: 唐诗, 6: 宋诗, 7: 宋词。请选择："))
 last_name = input("请输入姓氏，目前仅支持单姓：")
+
 # 不想要的字，结果中不会出现这些字
+dislike_words_input = input("请输入不想要的单字，用','分开：")
+dislike_words_split = dislike_words_input.split(',')
 dislike_words = list("")
+for i in dislike_words_split:
+    dislike_words.append(i.strip())
+
 # 最小笔画数
 min_stroke_count = 3
 
