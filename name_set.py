@@ -1,5 +1,6 @@
 import json
 import re
+import random
 
 import opencc
 
@@ -41,18 +42,15 @@ def get_source(source, validate, stroke_list):
     # 唐诗
     elif source == 5:
         print('>>加载唐诗...')
-        for i in range(0, 58000, 1000):
-            get_name_json('唐诗/poet.tang.' + str(i), names, 'paragraphs', stroke_list)
+        get_name_json('唐诗/poet.tang.' + str(random.randrange(0, 58000, 1000)), names, 'paragraphs', stroke_list)
     # 宋诗
     elif source == 6:
         print('>>加载宋诗...')
-        for i in range(0, 255000, 1000):
-            get_name_json('宋诗/poet.song.' + str(i), names, 'paragraphs', stroke_list)
+        get_name_json('宋诗/poet.song.' + str(random.randrange(0, 255000, 1000)), names, 'paragraphs', stroke_list)
     # 宋词
     elif source == 7:
         print('>>加载宋词...')
-        for i in range(0, 22000, 1000):
-            get_name_json('宋词/ci.song.' + str(i), names, 'paragraphs', stroke_list)
+        get_name_json('宋词/ci.song.' + str(random.randrange(0, 22000, 1000)), names, 'paragraphs', stroke_list)
     else:
         print('词库号输入错误')
 
