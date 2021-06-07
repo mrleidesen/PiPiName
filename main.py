@@ -57,6 +57,10 @@ def get_name():
 def check_name_status():
     # 填入姓名，查看三才五格配置
     check_name = input("请输入姓名：")
+    if len(check_name) < 2 or len(check_name) > 4:
+        print(">>请输入2-4长度的姓名")
+        check_name_status()
+        return
     # 是否显示名字来源
     check_name_resource = int(input("是否显示名字来源，0.不显示，1.显示 > "))
     # 查看姓名配置
@@ -72,7 +76,7 @@ def run_app():
     elif check_type == 1:
         check_name_status()
     else:
-        print("模式选择错误")
+        print(">>模式选择错误")
         
 
 run_app()

@@ -100,9 +100,14 @@ def check_wuge_config(name):
     complex_name = converter.convert(name)
     xing = get_stroke_number(complex_name[0])
     ming1 = get_stroke_number(complex_name[1])
-    ming2 = 0
-    if len(name) != 2:
+    ming2 = ming1 + 5
+    if len(name) > 2:
         ming2 = get_stroke_number(complex_name[2])
+    elif len(name) == 4:
+        avg = get_stroke_number(complex_name[3]) // 3
+        xing += avg
+        ming1 += avg
+        ming2 += avg
         
     # 天格
     tian = xing + 1
